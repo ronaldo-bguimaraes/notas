@@ -7,15 +7,18 @@ import chardet
 import requests
 from bs4 import BeautifulSoup
 
+from src.step import Step
 
-class Extracao:
-    def __init__(self, target_url):
-        self.target_url = target_url
+
+class Extracao(Step):
+    def __init__(self, request):
+        super().__init__(request)
+        self.target_url = self.request["target_url"]
 
     def identify(self):
         pass
 
-    def run(self):
+    def handler(self):
         session = requests.Session()
         response = session.get(self.target_url)
         buffer = response.content
@@ -37,9 +40,6 @@ class Extracao:
         with open(filepath, mode="wb") as file:
             file.write(html)
 
-
-if __name__ == "__main__":
-    extracao = Extracao(
-        target_url="https://www.sefaz.mt.gov.br/nfce/consultanfce?p=51240979379491005819651180002693641903633685|2|1|1|46426C8BD6D60F32AAC7AD72A4474CA3E1A66D39"
-    )
-    extracao.run()
+        return {
+            "filepath": str(filepath.resolve())
+        }

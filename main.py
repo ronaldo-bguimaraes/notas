@@ -1,28 +1,42 @@
-# from pathlib import Path
-# from urllib.parse import urlparse, parse_qs
-# from urllib.request import urlopen
-#
-# import pandas as pd
-# from bs4 import BeautifulSoup
-from urllib.request import urlopen
-
-from src.extract import extract_from_url
-
-# import requests
-# from src.files import Files
+from extracao.extracao import Extracao
+from parser.parser import Parser
 
 qr_code_url = "https://www.sefaz.mt.gov.br/nfce/consultanfce?p=51240979379491005819651180002693641903633685|2|1|1|46426C8BD6D60F32AAC7AD72A4474CA3E1A66D39"
 
-extract_from_url(qr_code_url)
+
+class Main:
+    def __init__(self, target_url):
+        self.target_url = target_url
+
+    def get_steps(self):
+        return [
+            {
+                "name": "Realiza Parsing",
+                "constructor": Parser
+            }
+        ]
+
+    def run(self):
+        steps = self.get_steps()
+        last_response = {
+            'filepath': '/tmp/notas/chave_51240979379491005819651180002693641903633685_1728698588.html'
+        }
+        for index, step in enumerate(steps):
+            step_name = step["name"]
+            constructor = step["constructor"]
+            print(f"Iniciando etapa: {step_name}")
+            step_object = constructor.__call__(last_response)
+            last_response = step_object.handler()
+            print(f"Fim da etapa: {step_name}")
+            step["response"] = last_response
+            print(last_response)
 
 
-# tmp = Path("tmp")
-# tmp.mkdir(exist_ok=True)
-# 
-# soup = BeautifulSoup(html, "html.parser")
-# 
+main = Main(qr_code_url)
+main.run()
+
 # print()
-# 
+#
 # # with open("tmp/tmp.html", mode="w") as tmp:
 # #     tmp.write(html)
 # 
