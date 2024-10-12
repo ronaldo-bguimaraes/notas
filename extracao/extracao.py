@@ -3,7 +3,6 @@ import re
 from datetime import datetime
 from pathlib import Path
 
-import chardet
 import requests
 from bs4 import BeautifulSoup
 
@@ -22,23 +21,20 @@ class Extracao(Step):
         session = requests.Session()
         response = session.get(self.target_url)
         buffer = response.content
-        result = chardet.detect(buffer)
-        encoding = result["encoding"]
-        html = buffer.decode(encoding).encode("utf8")
 
-        soup = BeautifulSoup(html, "html.parser")
+        soup = BeautifulSoup(buffer, "html.parser")
         curdate = datetime.now()
         timestamp = int(curdate.timestamp())
         chave = re.sub("\\s+", "", soup.select_one("span.chave").text)
 
-        foldename = f"/tmp/notas"
+        foldename = f"/tmp/extracao"
         os.makedirs(foldename, exist_ok=True)
 
         filename = f"chave_{chave}_{timestamp}.html"
         filepath = Path(foldename, filename)
 
         with open(filepath, mode="wb") as file:
-            file.write(html)
+            file.write(buffer)
 
         return {
             "filepath": str(filepath.resolve())
