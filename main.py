@@ -1,3 +1,4 @@
+from extracao.extracao import Extracao
 from parser.parser import Parser
 
 qr_code_url = "https://www.sefaz.mt.gov.br/nfce/consultanfce?p=51240979379491005819651180002693641903633685|2|1|1|46426C8BD6D60F32AAC7AD72A4474CA3E1A66D39"
@@ -10,6 +11,10 @@ class Main:
     def get_steps(self):
         return [
             {
+                "name": "Realiza Extracao",
+                "constructor": Extracao
+            },
+            {
                 "name": "Realiza Parsing",
                 "constructor": Parser
             }
@@ -18,8 +23,7 @@ class Main:
     def run(self):
         steps = self.get_steps()
         last_response = {
-            # "target_url": qr_code_url,
-            'filepath': '/tmp/extracao/chave_51240979379491005819651180002693641903633685_1728702205.html'
+            "target_url": qr_code_url,
         }
         for index, step in enumerate(steps):
             step_name = step["name"]
