@@ -4,3 +4,6 @@ requests~=2.32.3
 chardet~=5.2.0
 polars~=1.9.0
 pyarrow
+fastapi~=0.104.1
+uvicorn~=0.24.0
+pydantic~=2.5.2

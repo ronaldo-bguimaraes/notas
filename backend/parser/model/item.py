@@ -3,22 +3,22 @@ from typing import Optional
 
 
 @dataclass
-class Nota:
+class NotaModel:
     empresa: str
     chave: str
     numero: str
     serie: str
     emissao: str
 
-    items: list["Item"] = field(default_factory=list)
+    items: list["ItemModel"] = field(default_factory=list)
 
-    def add_item(self, item: "Item"):
+    def add_item(self, item: "ItemModel"):
         self.items.append(item)
         item.nota = self
 
 
 @dataclass
-class Item:
+class ItemModel:
     item_codigo: str
     item_descricao: str
     item_quantidade: str
@@ -26,4 +26,4 @@ class Item:
     item_valor_unidade: str
     item_valor_total: str
     
-    nota: Optional[Nota] = None
+    nota: Optional[NotaModel] = None

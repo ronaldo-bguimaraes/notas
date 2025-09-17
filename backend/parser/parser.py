@@ -2,7 +2,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-from parser.model.item import Item, Nota
+from parser.model.item import ItemModel, NotaModel
 
 
 class Parser:
@@ -15,12 +15,12 @@ class Parser:
     def _extract_value(self, data: str):
         return re.search("(\\d+(?:\\.\\d{3})*,\\d{1,2})", data).group(1)
 
-    def run(self) -> Nota:
+    def run(self) -> NotaModel:
         soup = BeautifulSoup(self.html_bytes, "html.parser")
 
         infos = soup.select_one("#infos").text
 
-        nota = Nota(
+        nota = NotaModel(
             empresa=soup.select_one("#conteudo .txtCenter .txtTopo").text,
             chave=soup.select_one("span.chave").text,
             numero=re.search("N.mero\\D+(\\d+)", infos).group(1),
@@ -29,7 +29,7 @@ class Parser:
         )
 
         for item in soup.select("#tabResult tr"):
-            parsed_item = Item(
+            parsed_item = ItemModel(
                 item_codigo=self._extract_code(item.select_one(".RCod").text),
                 item_descricao=item.select_one(".txtTit").text,
                 item_quantidade=item.select_one(".Rqtd").contents[1],

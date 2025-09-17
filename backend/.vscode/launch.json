@@ -9,12 +9,6 @@
             "type": "debugpy",
             "request": "launch",
             "module": "main"
-        },
-        {
-            "name": "scrapping",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "scrapping"
         }
     ]
 }
