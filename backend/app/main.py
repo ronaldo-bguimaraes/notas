@@ -1,11 +1,9 @@
 from typing import List
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import Base, engine, SessionLocal
-from database.operations import get_nota_by_id, get_all_notas
-from database.models.nota import NotaORM, ItemORM
-from database.mappers import NotaMapper, ItemMapper
-from api.schemas import NotaResponse, ItemResponse
+from app.database import Base, engine, SessionLocal
+from app.database.models.nota import NotaORM, ItemORM
+from app.api.schemas import NotaResponse, ItemResponse
 
 app = FastAPI(title="Notas API")
 

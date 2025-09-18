@@ -2,8 +2,8 @@ from sqlalchemy import Column, String, ForeignKey, Numeric, Integer, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-from database import Base
-from parser.model.item import NotaModel, ItemModel
+from app.database import Base
+from app.parser.model.item import NotaModel, ItemModel
 
 
 class NotaORM(Base):

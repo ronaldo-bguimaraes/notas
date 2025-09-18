@@ -1,8 +1,8 @@
 from typing import Optional, List
-from database import SessionLocal
-from database.mappers import NotaMapper, ItemMapper
-from database.models.nota import NotaORM
-from parser.model.item import NotaModel
+from app.database import SessionLocal
+from app.database.mappers import NotaMapper, ItemMapper
+from app.database.models.nota import NotaORM
+from app.parser.model.item import NotaModel
 
 
 def save_nota_to_db(nota_model: NotaModel) -> NotaModel:

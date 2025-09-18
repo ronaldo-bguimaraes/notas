@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
-from parser.model.item import NotaModel, ItemModel
-from database.models.nota import NotaORM, ItemORM
+from app.parser.model.item import NotaModel, ItemModel
+from app.database.models.nota import NotaORM, ItemORM
 
 
 class NotaMapper(BaseModel):

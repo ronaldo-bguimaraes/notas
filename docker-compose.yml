@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
-  postgres:
+  database_server:
     image: postgres:16
-    container_name: notas-postgres
+    container_name: notas_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -13,11 +11,25 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - notas-network
+      - notas_network
+
+  backend:
+    build:
+      context: backend
+    container_name: notas_backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database_server
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@database_server:5432/notas
+    networks:
+      - notas_network
 
 networks:
-  notas-network:
+  notas_network:
     driver: bridge
 
 volumes:
   postgres_data:
+    driver: local
